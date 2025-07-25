@@ -1,21 +1,33 @@
 import { useState } from "react";
 import InputWithLabel from "../../components/input-with-label";
+import { Link, useNavigate } from "react-router-dom";
+import { useAuth } from "../../context/auth-context";
 
 function SignInPage() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const navigate = useNavigate();
 
-  const handleSignIn = () => {
-    console.log(email, password);
+  const { signIn } = useAuth();
+
+  const handleSignIn = async () => {
+    const { data, error } = await signIn(email, password);
+    if (error) {
+      console.error(error);
+    }
+    if (data) {
+      console.log(data);
+      navigate("/");
+    }
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">
-      <div className="max-w-md w-full space-y-8">
-        <div className="bg-white rounded-lg shadow-md p-8">
-          <div className="text-center mb-8">
-            <h2 className="text-3xl font-bold text-gray-900">Sign In</h2>
-            <p className="mt-2 text-sm text-gray-600">Access your account</p>
+    <div>
+      <div>
+        <div>
+          <div>
+            <h2>Sign In</h2>
+            <p>Access your account</p>
           </div>
 
           <div className="space-y-6">
@@ -33,25 +45,16 @@ function SignInPage() {
               type="password"
             />
 
-            <button
-              className="uk-btn uk-btn-default hover:bg-blue-300 cursor-pointer flex justify-center items-center w-full"
-              onClick={handleSignIn}
-            >
+            <button className="cursor-pointer" onClick={handleSignIn}>
               Sign In
             </button>
 
-            <div className="text-center space-y-2">
-              <a href="#" className="text-sm text-blue-600 hover:text-blue-500">
-                Forgot your password?
-              </a>
-              <div className="text-sm text-gray-600">
+            <div className="">
+              <div>
                 Don't have an account?{" "}
-                <a
-                  href="#"
-                  className="text-blue-600 hover:text-blue-500 font-medium"
-                >
-                  Sign up here
-                </a>
+                <Link to="/sign-up">
+                  <p className="cursor-pointer">Sign up here</p>
+                </Link>
               </div>
             </div>
           </div>
