@@ -6,6 +6,7 @@ interface InputWithLabelProps {
   onChange: (value: string) => void;
   placeholder?: string;
   type?: React.HTMLInputTypeAttribute;
+  error?: string;
 }
 
 export default function InputWithLabel({
@@ -14,6 +15,7 @@ export default function InputWithLabel({
   onChange,
   placeholder,
   type,
+  error,
 }: InputWithLabelProps) {
   return (
     <div className="my-2">
@@ -25,6 +27,7 @@ export default function InputWithLabel({
         placeholder={placeholder}
         onChange={(e) => onChange(e.target.value)}
       />
+      {error && <p className="text-red-500">{error}</p>}
     </div>
   );
 }
